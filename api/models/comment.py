@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from .comment_like import Comment_like
 
 # Create your models here.
 class Comment(models.Model):
@@ -12,12 +13,20 @@ class Comment(models.Model):
   )
   created_at = models.DateField(auto_now_add=True)
 
+  likes = models.ManyToManyField(
+    'User',
+    through=Comment_like,
+    through_fields=('comment', 'owner'),
+    related_name='comment_likes',
+    blank=True
+  )
+
   def __str__(self):
     # This must return a string
     return f"The comment created on '{self.created_at}' by {self.owner} was {self.text}."
 
   def as_dict(self):
-    """Returns dictionary version of Mango models"""
+    """Returns dictionary version of Comment like models"""
     return {
         'id': self.id,
         'text': self.text,

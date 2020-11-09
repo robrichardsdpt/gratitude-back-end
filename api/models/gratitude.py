@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
+from .gratitude_like import Gratitude_like
 
 # Create your models here.
 class Gratitude(models.Model):
@@ -12,6 +13,14 @@ class Gratitude(models.Model):
       on_delete=models.CASCADE
   )
   created_at = models.DateField(auto_now_add=True)
+
+  likes = models.ManyToManyField(
+    'User',
+    through=Gratitude_like,
+    through_fields=('gratitude', 'owner'),
+    related_name='gratitude_likes',
+    blank=True
+  )
 
   def __str__(self):
     # This must return a string

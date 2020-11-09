@@ -7,60 +7,60 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user, authenticate, login, logout
 from django.middleware.csrf import get_token
 
-from ..models.comment import Comment
-from ..serializers import CommentSerializer, UserSerializer
+from ..models.comment_like import Comment_like
+from ..serializers import Comment_likeSerializer, UserSerializer
 
 # Create your views here.
-class Comments(generics.ListCreateAPIView):
+class Comment_likes(generics.ListCreateAPIView):
     permission_classes=(IsAuthenticated,)
-    serializer_class = CommentSerializer
+    serializer_class = Comment_likeSerializer
     def get(self, request):
         """Index request"""
         # Get all the comments:
         # comments = Comment.objects.all()
         # Filter the comments by owner, so you can only see your owned comments
-        comments = Comment.objects.all()
+        comment_likes = Comment_like.objects.all()
         # Run the data through the serializer
-        data = CommentSerializer(comments, many=True).data
-        return Response({ 'comments': data })
+        data = Comment_likeSerializer(comment_likes, many=True).data
+        return Response({ 'comment_likes': data })
 
     def post(self, request):
         """Create request"""
         # Add user to request data object
-        request.data['comment']['owner'] = request.user.id
+        request.data['comment_like']['owner'] = request.user.id
         # Serialize/create comment
-        comment = CommentSerializer(data=request.data['comment'])
+        comment_like = Comment_likeSerializer(data=request.data['comment_like'])
         # If the comment data is valid according to our serializer...
-        if comment.is_valid():
+        if comment_like.is_valid():
             # Save the created comment & send a response
-            comment.save()
-            return Response({ 'comment': comment.data }, status=status.HTTP_201_CREATED)
+            comment_like.save()
+            return Response({ 'comment_like': comment_like.data }, status=status.HTTP_201_CREATED)
         # If the data is not valid, return a response with the errors
-        return Response(comment.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(comment_like.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+class Comment_likeDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=(IsAuthenticated,)
     def get(self, request, pk):
         """Show request"""
         # Locate the comment to show
-        comment = get_object_or_404(Comment, pk=pk)
+        comment_like = get_object_or_404(Comment_like, pk=pk)
         # Only want to show owned comments?
-        if not request.user.id == comment.owner.id:
-            raise PermissionDenied('Unauthorized, you do not own this comment')
+        if not request.user.id == comment_like.owner.id:
+            raise PermissionDenied('Unauthorized, you do not own this comment_like')
 
         # Run the data through the serializer so it's formatted
-        data = CommentSerializer(comment).data
-        return Response({ 'comment': data })
+        data = Comment_likeSerializer(comment_like).data
+        return Response({ 'comment_like': data })
 
     def delete(self, request, pk):
         """Delete request"""
         # Locate comment to delete
-        comment = get_object_or_404(Comment, pk=pk)
+        comment_like = get_object_or_404(Comment_like, pk=pk)
         # Check the comment's owner agains the user making this request
-        if not request.user.id == comment.owner.id:
-            raise PermissionDenied('Unauthorized, you do not own this comment')
+        if not request.user.id == comment_like.owner.id:
+            raise PermissionDenied('Unauthorized, you do not own this comment_like')
         # Only delete if the user owns the  comment
-        comment.delete()
+        comment_like.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def partial_update(self, request, pk):
@@ -69,20 +69,20 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
         # This "gets" the owner key on the data['comment'] dictionary
         # and returns False if it doesn't find it. So, if it's found we
         # remove it.
-        if request.data['comment'].get('owner', False):
-            del request.data['comment']['owner']
+        if request.data['comment_like'].get('owner', False):
+            del request.data['comment_like']['owner']
 
         # Locate comment
         # get_object_or_404 returns a object representation of our comment
-        comment = get_object_or_404(Comment, pk=pk)
+        comment_like = get_object_or_404(Comment_like, pk=pk)
         # Check if user is the same as the request.user.id
-        if not request.user.id == comment.owner.id:
-            raise PermissionDenied('Unauthorized, you do not own this comment')
+        if not request.user.id == comment_like.owner.id:
+            raise PermissionDenied('Unauthorized, you do not own this comment_like')
 
         # Add owner to data object now that we know this user owns the resource
-        request.data['comment']['owner'] = request.user.id
+        request.data['comment_like']['owner'] = request.user.id
         # Validate updates with serializer
-        data = CommentSerializer(comment, data=request.data['comment'])
+        data = Comment_likeSerializer(comment_like, data=request.data['comment_like'])
         if data.is_valid():
             # Save & send a 204 no content
             data.save()

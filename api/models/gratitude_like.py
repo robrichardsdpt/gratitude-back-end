@@ -13,7 +13,7 @@ class Gratitude_like(models.Model):
   gratitude = models.ForeignKey(
         'Gratitude',
         on_delete=models.CASCADE
-        ])
+        )
   created_at = models.DateField(auto_now_add=True)
 
   def __str__(self):

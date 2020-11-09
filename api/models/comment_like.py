@@ -5,14 +5,15 @@ from django.contrib.auth import get_user_model
 class Comment_like(models.Model):
   # define fields
   # https://docs.djangoproject.com/en/3.0/ref/models/fields/
+  comment_like = models.IntegerField(default = 0)
   owner = models.ForeignKey(
       get_user_model(),
       on_delete=models.CASCADE
   )
   comment = models.ForeignKey(
-        get_user_model(),
+        'Comment',
         on_delete=models.CASCADE
-        ])
+        )
   created_at = models.DateField(auto_now_add=True)
 
   def __str__(self):

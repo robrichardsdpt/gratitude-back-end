@@ -4,6 +4,8 @@ from rest_framework import serializers
 from .models.comment import Comment
 from .models.gratitude import Gratitude
 from .models.user import User
+from .models.gratitude_like import Gratitude_like
+from .models.comment_like import Comment_like
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,6 +15,16 @@ class CommentSerializer(serializers.ModelSerializer):
 class GratitudeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gratitude
+        fields = '__all__'
+
+class Comment_likeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment_like
+        fields = '__all__'
+
+class Gratitude_likeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gratitude_like
         fields = '__all__'
 
 class UserSerializer(serializers.ModelSerializer):

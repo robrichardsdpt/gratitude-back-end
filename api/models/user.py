@@ -58,6 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     """Database model for users"""
     # As with any Django models, we need to define the fields
     # for the model with the type and options:
+    username = models.CharField(max_length=250, unique=True, default = '')
     email = models.EmailField(max_length=255, unique=True)
     # name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
