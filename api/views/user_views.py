@@ -6,8 +6,36 @@ from rest_framework import status, generics
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user, authenticate, login, logout
 
-from ..serializers import UserSerializer, UserRegisterSerializer,  ChangePasswordSerializer
+from ..serializers import UserViewSerializer, UserSerializer, UserRegisterSerializer,  ChangePasswordSerializer
 from ..models.user import User
+
+class Users(generics.ListCreateAPIView):
+    permission_classes=(IsAuthenticated,)
+    serializer_class = UserViewSerializer
+    def get(self, request):
+        """Index request"""
+        # Get all the coaches:
+        users = User.objects.all()
+        # Filter the workouts by owner, so you can only see your owned workouts
+        # Run the data through the serializer
+        data = UserViewSerializer(users, many=True).data
+        return Response({ 'users': data })
+
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes=(IsAuthenticated,)
+    def get(self, request, pk):
+        """Show request"""
+        # Locate the workout to show
+        user = get_object_or_404(User, pk=pk)
+        # Only want to show owned workouts?
+        if not request.user.id == user.owner.id:
+            raise PermissionDenied('Unauthorized, you do not own this user')
+
+        # Run the data through the serializer so it's formatted
+        data = UserSerializer(user).data
+        return Response({ 'user': data })
+
+
 
 class SignUp(generics.CreateAPIView):
     # Override the authentication/permissions classes so this endpoint

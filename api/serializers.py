@@ -7,6 +7,11 @@ from .models.user import User
 from .models.gratitude_like import Gratitude_like
 from .models.comment_like import Comment_like
 
+class UserViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'email')
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

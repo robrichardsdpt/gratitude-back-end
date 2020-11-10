@@ -3,10 +3,12 @@ from .views.gratitude_views import Gratitudes, GratitudeDetail
 from .views.comment_views import Comments, CommentDetail
 from .views.gratitude_like_views import Gratitude_likes, Gratitude_likeDetail
 from .views.comment_like_views import Comment_likes, Comment_likeDetail
-from .views.user_views import SignUp, SignIn, SignOut, ChangePassword
+from .views.user_views import SignUp, SignIn, SignOut, ChangePassword, Users, UserDetail
 
 urlpatterns = [
   	# Restful routing
+    path('users/', Users.as_view(), name='users'),
+    path('users/<int:pk>/', UserDetail.as_view(), name='user_detail'),
     path('comments/', Comments.as_view(), name='comments'),
     path('comments/<int:pk>/', CommentDetail.as_view(), name='comment_detail'),
     path('comment_likes/', Comment_likes.as_view(), name='comment_likes'),
