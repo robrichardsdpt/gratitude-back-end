@@ -20,9 +20,10 @@ class Gratitudes(generics.ListCreateAPIView):
         # gratitudes = gratitude.objects.all()
         # Filter the gratitudes by owner, so you can only see your owned gratitudes
         gratitudes = Gratitude.objects.all()
-        # Run the data through the serializer
         data = GratitudeSerializer(gratitudes, many=True).data
-        return Response({ 'gratitudes': data })
+        sorted_data = sorted(data, key = lambda i : i['id'], reverse=True)
+        # Run the data through the serializer
+        return Response({ 'gratitudes': sorted_data })
 
     def post(self, request):
         """Create request"""

@@ -14,7 +14,7 @@ class Gratitude_like(models.Model):
         'Gratitude',
         on_delete=models.CASCADE
         )
-  created_at = models.DateField(auto_now_add=True)
+  created_at = models.DateTimeField(auto_now_add=True)
 
   def __str__(self):
     # This must return a string
