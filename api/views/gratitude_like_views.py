@@ -29,7 +29,7 @@ class Gratitude_likes(generics.ListCreateAPIView):
         # Add user to request data object
         request.data['gratitude_like']['owner'] = request.user.id
         # Serialize/create gratitude
-        gratitude = Gratitude_likeSerializer(data=request.data['gratitude_like'])
+        gratitude_like = Gratitude_likeSerializer(data=request.data['gratitude_like'])
         # If the gratitude data is valid according to our serializer...
         if gratitude_like.is_valid():
             # Save the created gratitude & send a response
