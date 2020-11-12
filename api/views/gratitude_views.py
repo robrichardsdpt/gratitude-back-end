@@ -21,6 +21,7 @@ class Gratitudes(generics.ListCreateAPIView):
         # Filter the gratitudes by owner, so you can only see your owned gratitudes
         gratitudes = Gratitude.objects.all()
         data = GratitudeSerializer(gratitudes, many=True).data
+        print(data)
         sorted_data = sorted(data, key = lambda i : i['id'], reverse=True)
         # Run the data through the serializer
         return Response({ 'gratitudes': sorted_data })
@@ -29,8 +30,9 @@ class Gratitudes(generics.ListCreateAPIView):
         """Create request"""
         # Add user to request data object
         request.data['gratitude']['owner'] = request.user.id
-        # Serialize/create gratitude
+        # Serialize/create gratitude {{ value|linebreaksbr }}
         gratitude = GratitudeSerializer(data=request.data['gratitude'])
+        print(gratitude)
         # If the gratitude data is valid according to our serializer...
         if gratitude.is_valid():
             # Save the created gratitude & send a response

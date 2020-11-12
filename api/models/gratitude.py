@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from .gratitude_like import Gratitude_like
-
+from .comment import Comment
 # Create your models here.
 class Gratitude(models.Model):
   # define fields
@@ -19,6 +19,14 @@ class Gratitude(models.Model):
     through=Gratitude_like,
     through_fields=('gratitude', 'owner'),
     related_name='gratitude_likes',
+    blank=True
+)
+
+  comments = models.ManyToManyField(
+    'User',
+    through=Comment,
+    through_fields=('gratitude', 'owner'),
+    related_name='comments',
     blank=True
   )
 

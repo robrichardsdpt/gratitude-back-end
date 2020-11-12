@@ -13,6 +13,11 @@ class Comment(models.Model):
   )
   created_at = models.DateField(auto_now_add=True)
 
+  gratitude = models.ForeignKey(
+        'Gratitude',
+        on_delete=models.CASCADE
+        )
+
   likes = models.ManyToManyField(
     'User',
     through=Comment_like,
