@@ -45,8 +45,6 @@ class Gratitude_likeDetail(generics.RetrieveUpdateDestroyAPIView):
         # Locate the gratitude to show
         gratitude_like = get_object_or_404(Gratitude, pk=pk)
         # Only want to show owned gratitudes?
-        if not request.user.id == gratitude_like.owner.id:
-            raise PermissionDenied('Unauthorized, you do not own this gratitude')
 
         # Run the data through the serializer so it's formatted
         data = Gratitude_likeSerializer(gratitude_like).data
