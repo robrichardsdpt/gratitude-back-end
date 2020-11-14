@@ -27,7 +27,6 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         """Show request"""
         # Locate the workout to show
         user = get_object_or_404(User, pk=pk)
-        # Only want to show owned workouts?
         # Run the data through the serializer so it's formatted
         data = UserSerializer(user).data
         return Response({ 'user': data })
