@@ -28,9 +28,6 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         # Locate the workout to show
         user = get_object_or_404(User, pk=pk)
         # Only want to show owned workouts?
-        if not request.user.id == user.owner.id:
-            raise PermissionDenied('Unauthorized, you do not own this user')
-
         # Run the data through the serializer so it's formatted
         data = UserSerializer(user).data
         return Response({ 'user': data })
