@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.conf import settings
 from rest_framework.authtoken.models import Token
 
+def upload_path (instance, filename):
+  return '/'.join(['profile', str(instance.email), filename])
+
 class UserManager(BaseUserManager):
     """Manager for user profiles"""
 
@@ -62,6 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     # name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    profile = models.ImageField(blank=True, null=True, upload_to=upload_path)
 
     # Any time we call User.objects (such as in objects.all() or objects.filter())
     # make sure to use the custom user manager we created.
