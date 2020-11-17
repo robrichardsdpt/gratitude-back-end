@@ -65,7 +65,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     # name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    profile = models.ImageField(blank=True, null=True, upload_to=upload_path)
 
     # Any time we call User.objects (such as in objects.all() or objects.filter())
     # make sure to use the custom user manager we created.

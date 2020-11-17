@@ -31,8 +31,6 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         data = UserSerializer(user).data
         return Response({ 'user': data })
 
-
-
 class SignUp(generics.CreateAPIView):
     # Override the authentication/permissions classes so this endpoint
     # is not authenticated & we don't need any permissions to access it.
