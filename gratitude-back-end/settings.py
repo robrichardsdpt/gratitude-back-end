@@ -76,7 +76,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'storages'
 ]
 
 MIDDLEWARE = [
@@ -168,23 +167,19 @@ USE_TZ = True
 
 #S3 BUCKETS CONFIG
 
-AWS_ACCESS_KEY_ID='AKIA2YWZBTSHABQ64CHE'
-AWS_SECRET_ACCESS_KEY= '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'
-AWS_STORAGE_BUCKET_NAME='mygratitudebucket'
+#AWS_ACCESS_KEY_ID='AKIA2YWZBTSHABQ64CHE'
+#AWS_SECRET_ACCESS_KEY= ''
+#AWS_STORAGE_BUCKET_NAME=''
 
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
+#AWS_S3_FILE_OVERWRITE =
+#AWS_DEFAULT_ACL =
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # optional package: http://whitenoise.evans.io/en/stable/django.html
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Use the custom user model as the auth user for the admin view
 AUTH_USER_MODEL = 'api.User'
